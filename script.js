@@ -19,15 +19,25 @@ function getRandomInt(max) {
 function playRound(playerSelection, computerSelection) {
 
     if (playerSelection == computerSelection) {
+
         return 0 + 'Both players picked ' + playerSelection + '. The round ended in a draw! Score is now ' + playerScore + ' to ' + computerScore;
+        
         } else if (playerSelection == 'Rock' && computerSelection == 'Scissors') {
+
             return ++playerScore + 'Opponenent played ' + computerSelection + '. You win! Score is now ' + playerScore + ' to ' + computerScore;
+
             } else if (playerSelection == 'Paper' && computerSelection == 'Rock') {
+
                 return ++playerScore + 'Opponenent played ' + computerSelection + '. You win! Score is now ' + playerScore + ' to ' + computerScore;
+
                 } else if (playerSelection == 'Scissors' && computerSelection == 'Paper') {
+
                     return ++playerScore + 'Opponenent played ' + computerSelection + '. You win! Score is now ' + playerScore + ' to ' + computerScore;
+
                     } else {
+
                         return ++computerScore + 'Opponenent played ' + computerSelection + '. You lose! Score is now ' + playerScore + ' to ' + computerScore; 
+
                         }
 };
 
@@ -37,16 +47,49 @@ function game() {
     console.log(result.slice(1));
 };
 
+const button = document.querySelectorAll('.gameButton');
+
+const results = document.querySelector('.results');
+
+const gameState = document.createElement('div');
+gameState.setAttribute('class', 'gameState');
+
+button.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        if (e.target.id == "rock") {
+            let result = playRound('Rock', getComputerChoice(getRandomInt(3)))
+            console.log(result.slice(1));
+        } else if (e.target.id == "paper") {
+            let result = playRound('Paper', getComputerChoice(getRandomInt(3)))
+            console.log(result.slice(1));
+        } else {
+            let result = playRound('Scissors', getComputerChoice(getRandomInt(3)))
+            console.log(result.slice(1));
+        }
+
+    })
+})
+/*
 for (let i = 0; i <= 5; i++) {
     if (i < 5) {
+
         game();
+
     } else if (playerScore < computerScore) {
+
         console.log('You lose!')
+
     } else if (playerScore > computerScore) {
+
         console.log('You win!')
-    } else if (playerScore == computerScore) {
+
+    } else {
+
         console.log("It's a draw!")
+
     }
 }
+*/
+
 
 // console.log(playRound('Rock', getComputerChoice(getRandomInt(3))));
