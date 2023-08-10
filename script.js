@@ -20,23 +20,23 @@ function playRound(playerSelection, computerSelection) {
 
     if (playerSelection == computerSelection) {
 
-        return 0 + 'Both players picked ' + playerSelection + '. The round ended in a draw! Score is now ' + playerScore + ' to ' + computerScore;
+        return ["It's a draw!", computerSelection, computerScore, playerScore];
         
         } else if (playerSelection == 'Rock' && computerSelection == 'Scissors') {
 
-            return ++playerScore + 'Opponenent played ' + computerSelection + '. You win! Score is now ' + playerScore + ' to ' + computerScore;
+            return ["You win!", computerSelection, computerScore, ++playerScore];
 
             } else if (playerSelection == 'Paper' && computerSelection == 'Rock') {
 
-                return ++playerScore + 'Opponenent played ' + computerSelection + '. You win! Score is now ' + playerScore + ' to ' + computerScore;
+                return ["You win!", computerSelection, computerScore, ++playerScore];
 
                 } else if (playerSelection == 'Scissors' && computerSelection == 'Paper') {
 
-                    return ++playerScore + 'Opponenent played ' + computerSelection + '. You win! Score is now ' + playerScore + ' to ' + computerScore;
+                    return ["You win!", computerSelection, computerScore, ++playerScore];
 
                     } else {
 
-                        return ++computerScore + 'Opponenent played ' + computerSelection + '. You lose! Score is now ' + playerScore + ' to ' + computerScore; 
+                        return ["You lose!", computerSelection, ++computerScore, playerScore];
 
                         }
 };
@@ -49,22 +49,35 @@ function game() {
 
 const button = document.querySelectorAll('.gameButton');
 
-const results = document.querySelector('.results');
+const results = document.querySelector('#results');
+const status = document.querySelector('#status')
 
-const gameState = document.createElement('div');
-gameState.setAttribute('class', 'gameState');
+let gameState = 'running'
 
 button.forEach((button) => {
     button.addEventListener('click', (e) => {
-        if (e.target.id == "rock") {
+        if (e.target.id == "rock" && gameState == 'running') {
             let result = playRound('Rock', getComputerChoice(getRandomInt(3)))
-            console.log(result.slice(1));
-        } else if (e.target.id == "paper") {
+            results.textContent = 'Score is ' + playerScore + ' to ' + computerScore;
+            status.textContent = 'Opponent played ' + result.slice(1, 2) + '. ' + result.slice(0, 1);
+        } else if (e.target.id == "paper" && gameState == 'running') {
             let result = playRound('Paper', getComputerChoice(getRandomInt(3)))
-            console.log(result.slice(1));
-        } else {
+            results.textContent = 'Score is ' + playerScore + ' to ' + computerScore;
+            status.textContent = 'Opponent played ' + result.slice(1, 2) + '. ' + result.slice(0, 1);
+        } else if (gameState == 'running') {
             let result = playRound('Scissors', getComputerChoice(getRandomInt(3)))
-            console.log(result.slice(1));
+            results.textContent = 'Score is ' + playerScore + ' to ' + computerScore;
+            status.textContent = 'Opponent played ' + result.slice(1, 2) + '. ' + result.slice(0, 1);
+        }
+
+        if (computerScore == 5) {
+            status.textContent = 'Computer Wins!'
+            gameState = 'finished'
+        }
+
+        if (playerScore == 5) {
+            status.textContent = 'You Win!'
+            gameState = 'finished'
         }
 
     })
